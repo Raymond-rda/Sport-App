@@ -1,6 +1,11 @@
 # Authantication APIs
 
-**'for now you can change `localhost`'**
+## Requirement
+**'After clone project'**
+### Install dependences
+npm install
+### Start app bt running
+npm run dev
 
 **'Regiter user 👇🏾'**
 
