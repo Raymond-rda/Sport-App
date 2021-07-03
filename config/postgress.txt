@@ -1,0 +1,6 @@
+Postgres sql
+How to use it:
+Export database by using dump
+$ sudo pg_dump -U postgres -p 5432 -d  ipfundo > dump1.sql
+Import database in Postgres
+$ psql db_name < dump.sql
