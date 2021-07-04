@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 4.9.7
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 29, 2021 at 10:18 AM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Host: localhost:8889
+-- Generation Time: Jul 03, 2021 at 05:55 PM
+-- Server version: 5.7.32
+-- PHP Version: 7.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -20,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `treesports`
 --
+CREATE DATABASE IF NOT EXISTS `treesports` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `treesports`;
 
 -- --------------------------------------------------------
 
@@ -31,11 +32,11 @@ CREATE TABLE `admin` (
   `admin_Id` int(100) NOT NULL,
   `fname` varchar(200) NOT NULL,
   `lname` varchar(200) NOT NULL,
-  `admin_image` varchar(200) NOT NULL,
+  `admin_image` varchar(200) DEFAULT NULL,
   `phone` int(100) NOT NULL,
   `email` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
-  `status` int(5) NOT NULL DEFAULT 1
+  `status` int(5) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -43,10 +44,11 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_Id`, `fname`, `lname`, `admin_image`, `phone`, `email`, `password`, `status`) VALUES
-(1, 'kwizera', 'Mugisha', '', 79938923, 'plklmkaj@khsnl', 'hgsgvjvjhvdj', 1),
 (2, 'kwizera', 'Mugisha', '', 79938923, 'plklmkaj@khsnl', 'hgsgvjvjhvdj', 1),
 (3, 'kwizera', 'Mugisha', '', 79938923, 'plklmkaj@khsnl', 'hgsgvjvjhvdj', 1),
-(4, 'joseph', 'kwizera', '', 2147483647, 'jbjkdskgk@jkbhks', 'jhhjghgj', 1);
+(4, 'joseph', 'kwizera', '', 2147483647, 'jbjkdskgk@jkbhks', 'jhhjghgj', 1),
+(5, 'xman', 'coder', NULL, 12345, 'xcoder@gmail.com', '$2a$12$khObeE5/Tn0bUcfnswxiG.GTnIrtwEoXx7Ckme5RDHVwVMQqIH5yW', 1),
+(6, 'xman', 'coder', NULL, 12345, 'xcoder@gmail.com', '$2a$12$KKbUYB5wQ7HdJTE5RqUFmut15g7dOmeJCKPr655v/wnBWoSvD04eK', 1);
 
 -- --------------------------------------------------------
 
@@ -143,17 +145,19 @@ CREATE TABLE `news` (
   `image_detail` varchar(1000) NOT NULL,
   `decription` varchar(10000) NOT NULL,
   `types` varchar(100) NOT NULL,
-  `admin_Id` int(200) NOT NULL
+  `admin_Id` int(200) NOT NULL,
+  `status` int(5) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `news`
 --
 
-INSERT INTO `news` (`news_id`, `title`, `category`, `image`, `image_detail`, `decription`, `types`, `admin_Id`) VALUES
-(7, '0', 'basketball', 'a.jpg', 'ok', 'jiohhuiyihjaig', 'news', 0),
-(8, 'amajyepfo ok', 'basketball', 'a.jpg', 'ok', 'jiohhuiyihjaig', 'news', 0),
-(9, 'france win', 'basketball', 'b.jpg', 'soooo goood', 'jiohhxsdsssssssssuiyihjaig', 'pundits', 0);
+INSERT INTO `news` (`news_id`, `title`, `category`, `image`, `image_detail`, `decription`, `types`, `admin_Id`, `status`) VALUES
+(7, '0', 'basketball', 'a.jpg', 'ok', 'jiohhuiyihjaig', 'news', 0, 1),
+(8, 'amajyepfo ok', 'basketball', 'a.jpg', 'ok', 'jiohhuiyihjaig', 'news', 0, 1),
+(9, 'france win', 'basketball', 'b.jpg', 'soooo goood', 'jiohhxsdsssssssssuiyihjaig', 'pundits', 0, 1),
+(10, 'League mach', 'category', 'public/news-images/1625332800524-new-diagram.png', 'qwredjsh image_detailfidhn image_detail', 'wefqf erqferafv sfvdasvdf', 'types', 5, 1);
 
 --
 -- Indexes for dumped tables
@@ -197,7 +201,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `admin_Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `club`
@@ -221,8 +225,7 @@ ALTER TABLE `league`
 -- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
-  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-COMMIT;
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -1,10 +1,15 @@
 # Authantication APIs
 
 ## Requirement
+
 **'After clone project'**
+
 ### Install dependences
+
 npm install
-### Start app bt running
+
+### Start app by running
+
 npm run dev
 
 **'Regiter user 👇🏾'**

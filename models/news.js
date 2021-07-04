@@ -23,7 +23,7 @@ exports.find = async (news_id) => {
   }
 };
 
-exports.findBycategory = async (category) => {
+exports.findByCategory = async (category) => {
   try {
     const query = "SELECT * FROM news WHERE category=? AND status=?";
     const rlt = await pool.query(query, [category, 1]);
@@ -35,7 +35,7 @@ exports.findBycategory = async (category) => {
   }
 };
 
-exports.findBycategory = async (type) => {
+exports.findByType = async (type) => {
   try {
     const query = "SELECT * FROM news WHERE types=? AND status=?";
     const rlt = await pool.query(query, [type, 1]);
@@ -67,15 +67,16 @@ exports.insert = async (data) => {
     };
   }
 };
-exports.update = async (data) => {
+exports.update = async (data, news_id) => {
   try {
     const query =
-      "UPDATE news SET  title=?,category=?,decription=?,types=?) VALUES (?,?,?,?)";
+      "UPDATE news SET  title=?,category=?,decription=?,types=? WHERE news_id=?";
     const rlt = await pool.query(query, [
       data.title,
       data.category,
       data.decription,
       data.types,
+      news_id,
     ]);
     return rlt.affectedRows;
   } catch (error) {
@@ -85,10 +86,22 @@ exports.update = async (data) => {
   }
 };
 
-exports.update = async (data) => {
+exports.delete = async (news_id) => {
   try {
-    const query = "DELELTE FROM news WHERE news_id=? AND status=?";
-    const rlt = await pool.query(query, [data.news_id, 1]);
+    const query = "DELETE FROM news WHERE news_id=? AND status=?";
+    const rlt = await pool.query(query, [news_id, 1]);
+    return rlt.affectedRows;
+  } catch (error) {
+    throw {
+      message: error.message,
+    };
+  }
+};
+
+exports.updateMainImg = async (data) => {
+  try {
+    const query = "UPDATE news SET  image=? WHERE news_id=? AND status=?";
+    const rlt = await pool.query(query, [data.image, data.news_id, 1]);
     return rlt.affectedRows;
   } catch (error) {
     throw {

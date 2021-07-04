@@ -37,7 +37,6 @@ createNews = async (req, res) => {
 
     return res.status(200).json({
       msg: "Created",
-      data: result,
     });
   } catch (error) {
     return res.status(500).json({
@@ -45,4 +44,159 @@ createNews = async (req, res) => {
     });
   }
 };
-module.exports = { getAllNews, createNews };
+
+const getNewById = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      errors: errors.array(),
+    });
+  }
+  try {
+    const rlt = await news.find(req.params.news_id);
+    return res.status(200).json({
+      data: rlt,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error,
+    });
+  }
+};
+
+const getNewsByCategory = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      errors: errors.array(),
+    });
+  }
+  try {
+    const rlt = await news.findByCategory(req.params.category);
+    return res.status(200).json({
+      data: rlt,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error,
+    });
+  }
+};
+
+const getNewsByType = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      errors: errors.array(),
+    });
+  }
+  try {
+    const rlt = await news.findByType(req.params.type);
+    return res.status(200).json({
+      data: rlt,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error,
+    });
+  }
+};
+const updateNew = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      errors: errors.array(),
+    });
+  }
+  try {
+    const existNews = await news.find(req.params.news_id);
+    if (existNews.length <= 0) {
+      return res.status(404).json({
+        msg: "New your trying to update does not exist",
+      });
+    }
+    await news.update(req.body, req.params.news_id);
+    return res.status(200).json({
+      msg: "Updated",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error,
+    });
+  }
+};
+const deleteNew = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      errors: errors.array(),
+    });
+  }
+  try {
+    const existNews = await news.find(req.params.news_id);
+    if (existNews.length <= 0) {
+      return res.status(404).json({
+        msg: "New your trying to delete does not exist",
+      });
+    }
+
+    const rlt = await news.delete(req.params.news_id);
+    return res.status(200).json({
+      data: rlt,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error,
+    });
+  }
+};
+
+const updateNewMainIng = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array(),
+    });
+  }
+  try {
+    let body = req.body;
+    // Validate image
+    if (req.file == undefined) {
+      return res.status(404).json({
+        msg: "You must select  a file.",
+      });
+    }
+    body.image = "public/news-images/" + req.file.filename;
+
+    const existNews = await news.find(req.body.news_id);
+    if (existNews.length <= 0) {
+      return res.status(404).json({
+        msg: "New your trying to update does not exist",
+      });
+    }
+    await news.updateMainImg(req.body);
+    return res.status(200).json({
+      msg: "Updated",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errors: error,
+    });
+  }
+};
+module.exports = {
+  getAllNews,
+  createNews,
+  getNewById,
+  getNewsByCategory,
+  getNewsByType,
+  updateNew,
+  deleteNew,
+  updateNewMainIng,
+};
