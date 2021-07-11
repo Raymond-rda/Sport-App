@@ -20,7 +20,7 @@ router.post(
     check("lname", "lname is required").not().isEmpty(),
     check("phone", "phone is required").not().isEmpty(),
     check("email", "email is required").not().isEmpty(),
-    check("password", "Password is required").not().isEmpty(),
+    check("password", "password is required").not().isEmpty(),
   ],
   createAdmin
 );
