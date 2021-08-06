@@ -1,10 +1,32 @@
 const news = require("../models/news");
+const admin = require("../models/admin");
+
 const { validationResult } = require("express-validator");
 
 const getAllNews = async (req, res) => {
   try {
+    let allNews = [];
+
     const rlt = await news.findAll();
-    res.status(200).send(rlt);
+    for (const key in rlt) {
+      if (Object.hasOwnProperty.call(rlt, key)) {
+        const newElement = rlt[key];
+
+        const adminRlt = await admin.findActive(newElement.admin_Id);
+        const adminNe = {
+          admin_Id: adminRlt[0].admin_Id,
+          fname: adminRlt[0].fname,
+          lname: adminRlt[0].lname,
+          admin_image: adminRlt[0].admin_image,
+          phone: adminRlt[0].phone,
+          email: adminRlt[0].email,
+        };
+
+        allNews.push({ ...newElement, admin: adminNe });
+      }
+    }
+    res.status(200).send(allNews);
+
     return;
   } catch (error) {
     res.status(500).send(error);

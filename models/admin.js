@@ -16,7 +16,7 @@ exports.find = (admin_id) => {
 };
 exports.findEmail = async (email) => {
   try {
-    const query = "SELECT * FROM admin WHERE email = ? AND status = ?";
+    const query = "SELECT * FROM admin WHERE email = ? AND status = ? LIMIT 1";
     let result = await pool.query(query, [email, 1]);
     return result[0];
   } catch (error) {
@@ -39,10 +39,11 @@ exports.findActive = async (id) => {
 exports.insert = async (data) => {
   try {
     const query =
-      "INSERT INTO admin (fname,lname,email,phone,password) VALUES (?,?,?,?,?)";
+      "INSERT INTO admin (fname,lname,admin_image,email,phone,password) VALUES (?,?,?,?,?,?)";
     let result = await pool.query(query, [
       data.fname,
       data.lname,
+      data.path,
       data.email,
       data.phone,
       data.password,

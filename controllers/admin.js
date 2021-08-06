@@ -34,18 +34,23 @@ const createAdmin = async (req, res) => {
   }
   try {
     // Encript password
+
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     let body = req.body;
     body.password = hashedPassword;
+    body.path = "/public/user-profile/" + req.file.filename;
 
     const adminExist = await admin.findEmail(req.body.email);
-    if (adminExist.length < 1) {
+
+    if (adminExist.length > 0) {
       return res.status(400).json({
         msg: "Email in use, please choose other one!",
       });
     }
     const rlt = await admin.insert(body);
-    res.status(201).send(rlt);
+    res.status(201).json({
+      msg: "Account create",
+    });
     return;
   } catch (error) {
     res.status(500).send(error);

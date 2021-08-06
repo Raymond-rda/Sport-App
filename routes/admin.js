@@ -1,5 +1,6 @@
 const Router = require("express");
 const { check } = require("express-validator");
+const uploadProfile = require("../middleware/user-profile-check");
 
 const router = Router();
 
@@ -15,6 +16,7 @@ router.get("/api/admin", getAllAdmin);
 router.get("/api/admin/:admin_id/:email", getAdminById);
 router.post(
   "/api/admincreate",
+  uploadProfile.single("profile"),
   [
     check("fname", "fname is required").not().isEmpty(),
     check("lname", "lname is required").not().isEmpty(),
